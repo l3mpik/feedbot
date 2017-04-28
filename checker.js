@@ -16,6 +16,14 @@ fs.open("proxyw.txt", 'a', 666, function(e, id) {
 
 var proxies = fs.readFileSync('proxy.txt').toString().split("\n");
 
+var old_len = proxies.length;
+
+proxies = proxies.filter(function(item, pos, self) {
+    return self.indexOf(item) == pos;
+});
+
+
+
 class Checker {
 
     constructor(proxy) {
@@ -116,9 +124,10 @@ class Checker {
         function myLoop() {
 
             setTimeout(function() {
-                console.log("LOL: " + self.i + " / " + self.proxies.length + " Working: " + global.working)
+                console.log("Loaded:", old_len, " After deduplicate", proxies.length);
+                console.log("Working:", global.working, " Index: ", self.i, " / ", proxies.length, "\n\n\n\n\n\n\n\n\n\n");
+                console.log("\n\n\n\n\n\n\n\n")
                 self.i++;
-
                 if (self.i < self.proxies.length) {
 
                     self.check_ws(self.proxies[self.i]);
